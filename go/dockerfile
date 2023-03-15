@@ -1,0 +1,15 @@
+# start from scratch
+FROM golang:1.16-alpine as builder
+
+WORKDIR /usr/src
+
+# copy our static linked executable
+COPY hello.go hello.go
+COPY run.sh run.sh
+RUN sh ./run.sh
+
+
+FROM scratch
+WORKDIR /usr/src
+COPY --from=builder /usr/src .
+CMD ["./hello"] 
